@@ -54,6 +54,7 @@ jobs:
             - ./packages/core-jest-matchers/node_modules
             - ./packages/core-json-rpc/node_modules
             - ./packages/core-logger/node_modules
+            - ./packages/core-logger-console/node_modules
             - ./packages/core-logger-pino/node_modules
             - ./packages/core-logger-signale/node_modules
             - ./packages/core-logger-winston/node_modules
@@ -140,6 +141,7 @@ jobs:
             - ./packages/core-jest-matchers/node_modules
             - ./packages/core-json-rpc/node_modules
             - ./packages/core-logger/node_modules
+            - ./packages/core-logger-console/node_modules
             - ./packages/core-logger-pino/node_modules
             - ./packages/core-logger-signale/node_modules
             - ./packages/core-logger-winston/node_modules
@@ -226,6 +228,7 @@ jobs:
             - ./packages/core-jest-matchers/node_modules
             - ./packages/core-json-rpc/node_modules
             - ./packages/core-logger/node_modules
+            - ./packages/core-logger-console/node_modules
             - ./packages/core-logger-pino/node_modules
             - ./packages/core-logger-signale/node_modules
             - ./packages/core-logger-winston/node_modules
@@ -312,6 +315,7 @@ jobs:
             - ./packages/core-jest-matchers/node_modules
             - ./packages/core-json-rpc/node_modules
             - ./packages/core-logger/node_modules
+            - ./packages/core-logger-console/node_modules
             - ./packages/core-logger-pino/node_modules
             - ./packages/core-logger-signale/node_modules
             - ./packages/core-logger-winston/node_modules
@@ -398,6 +402,7 @@ jobs:
             - ./packages/core-jest-matchers/node_modules
             - ./packages/core-json-rpc/node_modules
             - ./packages/core-logger/node_modules
+            - ./packages/core-logger-console/node_modules
             - ./packages/core-logger-pino/node_modules
             - ./packages/core-logger-signale/node_modules
             - ./packages/core-logger-winston/node_modules
@@ -484,6 +489,7 @@ jobs:
             - ./packages/core-jest-matchers/node_modules
             - ./packages/core-json-rpc/node_modules
             - ./packages/core-logger/node_modules
+            - ./packages/core-logger-console/node_modules
             - ./packages/core-logger-pino/node_modules
             - ./packages/core-logger-signale/node_modules
             - ./packages/core-logger-winston/node_modules
@@ -570,6 +576,7 @@ jobs:
             - ./packages/core-jest-matchers/node_modules
             - ./packages/core-json-rpc/node_modules
             - ./packages/core-logger/node_modules
+            - ./packages/core-logger-console/node_modules
             - ./packages/core-logger-pino/node_modules
             - ./packages/core-logger-signale/node_modules
             - ./packages/core-logger-winston/node_modules
@@ -686,6 +693,7 @@ jobs:
             - ./packages/core-jest-matchers/node_modules
             - ./packages/core-json-rpc/node_modules
             - ./packages/core-logger/node_modules
+            - ./packages/core-logger-console/node_modules
             - ./packages/core-logger-pino/node_modules
             - ./packages/core-logger-signale/node_modules
             - ./packages/core-logger-winston/node_modules
@@ -796,6 +804,7 @@ jobs:
             - ./packages/core-jest-matchers/node_modules
             - ./packages/core-json-rpc/node_modules
             - ./packages/core-logger/node_modules
+            - ./packages/core-logger-console/node_modules
             - ./packages/core-logger-pino/node_modules
             - ./packages/core-logger-signale/node_modules
             - ./packages/core-logger-winston/node_modules
@@ -912,6 +921,7 @@ jobs:
             - ./packages/core-jest-matchers/node_modules
             - ./packages/core-json-rpc/node_modules
             - ./packages/core-logger/node_modules
+            - ./packages/core-logger-console/node_modules
             - ./packages/core-logger-pino/node_modules
             - ./packages/core-logger-signale/node_modules
             - ./packages/core-logger-winston/node_modules
