@@ -1,6 +1,6 @@
 import { app } from "@arkecosystem/core-container";
-import { Blockchain, Database, Logger, P2P } from "@arkecosystem/core-interfaces";
-import { TransactionGuard, TransactionPool } from "@arkecosystem/core-transaction-pool";
+import { Blockchain, Database, Logger, P2P, TransactionPool } from "@arkecosystem/core-interfaces";
+import { TransactionGuard } from "@arkecosystem/core-transaction-pool";
 import { AjvWrapper, models, slots } from "@arkecosystem/crypto";
 import pluralize from "pluralize";
 import { monitor } from "../../../monitor";
@@ -8,7 +8,7 @@ import { schema } from "./schema";
 
 const { Block } = models;
 
-const transactionPool = app.resolvePlugin<TransactionPool>("transaction-pool");
+const transactionPool = app.resolvePlugin<TransactionPool.IConnection>("transaction-pool");
 const logger = app.resolvePlugin<Logger.ILogger>("logger");
 
 /**
@@ -76,17 +76,15 @@ export const getCommonBlocks = {
             };
         }
 
-        const blockchain = app.resolvePlugin<Blockchain.IBlockchain>("blockchain");
-
         const ids = request.query.ids.split(",").filter(id => AjvWrapper.instance().validate({ blockId: {} }, id));
 
         try {
-            const commonBlocks = await blockchain.database.getCommonBlocks(ids);
+            const commonBlocks = await app.resolvePlugin<Database.IDatabaseService>("database").getCommonBlocks(ids);
 
             return {
                 success: true,
                 common: commonBlocks.length ? commonBlocks[0] : null,
-                lastBlockHeight: blockchain.getLastBlock().data.height,
+                lastBlockHeight: app.resolvePlugin<Blockchain.IBlockchain>("blockchain").getLastBlock().data.height,
             };
         } catch (error) {
             return h

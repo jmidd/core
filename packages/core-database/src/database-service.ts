@@ -1,4 +1,5 @@
 import { app } from "@arkecosystem/core-container";
+import { ApplicationEvents } from "@arkecosystem/core-event-emitter";
 import { Blockchain, Database, EventEmitter, Logger } from "@arkecosystem/core-interfaces";
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions";
 import { roundCalculator } from "@arkecosystem/core-utils";
@@ -11,7 +12,7 @@ import { WalletManager } from "./wallet-manager";
 const { Block } = models;
 
 export class DatabaseService implements Database.IDatabaseService {
-    public connection: Database.IDatabaseConnection;
+    public connection: Database.IConnection;
     public walletManager: Database.IWalletManager;
     public logger = app.resolvePlugin<Logger.ILogger>("logger");
     public emitter = app.resolvePlugin<EventEmitter.EventEmitter>("event-emitter");
@@ -24,12 +25,12 @@ export class DatabaseService implements Database.IDatabaseService {
     public blocksInCurrentRound: any[] = null;
     public stateStarted: boolean = false;
     public restoredDatabaseIntegrity: boolean = false;
-    public forgingDelegates: any[] = null;
+    public forgingDelegates: Database.IDelegateWallet[] = null;
     public cache: Map<any, any> = new Map();
 
     constructor(
         options: any,
-        connection: Database.IDatabaseConnection,
+        connection: Database.IConnection,
         walletManager: Database.IWalletManager,
         walletsBusinessRepository: Database.IWalletsBusinessRepository,
         delegatesBusinessRepository: Database.IDelegatesBusinessRepository,
@@ -141,7 +142,7 @@ export class DatabaseService implements Database.IDatabaseService {
         this.connection.enqueueDeleteRound(height);
     }
 
-    public async getActiveDelegates(height: number, delegates?: any[]) {
+    public async getActiveDelegates(height: number, delegates?: Database.IDelegateWallet[]) {
         const maxDelegates = this.config.getMilestone(height).activeDelegates;
         const round = Math.floor((height - 1) / maxDelegates) + 1;
 
@@ -151,7 +152,9 @@ export class DatabaseService implements Database.IDatabaseService {
 
         // When called during applyRound we already know the delegates, so we don't have to query the database.
         if (!delegates || delegates.length === 0) {
-            delegates = await this.connection.roundsRepository.findById(round);
+            delegates = ((await this.connection.roundsRepository.findById(
+                round,
+            )) as unknown) as Database.IDelegateWallet[];
         }
 
         const seedSource = round.toString();
@@ -169,6 +172,7 @@ export class DatabaseService implements Database.IDatabaseService {
 
         this.forgingDelegates = delegates.map(delegate => {
             delegate.round = +delegate.round;
+            delegate.username = this.walletManager.findByPublicKey(delegate.publicKey).username;
             return delegate;
         });
 
@@ -313,7 +317,7 @@ export class DatabaseService implements Database.IDatabaseService {
         return new Block(block);
     }
 
-    public async getCommonBlocks(ids: string[]) {
+    public async getCommonBlocks(ids: string[]): Promise<models.IBlockData[]> {
         const state = app.resolve("state");
         let commonBlocks = state.getCommonBlocks(ids);
         if (commonBlocks.length < ids.length) {
@@ -547,11 +551,11 @@ export class DatabaseService implements Database.IDatabaseService {
     }
 
     private registerListeners() {
-        this.emitter.on("state:started", () => {
+        this.emitter.on(ApplicationEvents.StateStarted, () => {
             this.stateStarted = true;
         });
 
-        this.emitter.on("wallet.created.cold", async coldWallet => {
+        this.emitter.on(ApplicationEvents.WalletColdCreated, async coldWallet => {
             try {
                 const wallet = await this.connection.walletsRepository.findByAddress(coldWallet.address);
 
