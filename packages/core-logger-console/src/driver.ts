@@ -12,7 +12,7 @@ export class ConsoleLogger extends AbstractLogger {
 
     protected getLevels(): Record<string, string> {
         return {
-            verbose: "trace",
+            verbose: "debug",
         };
     }
 }
