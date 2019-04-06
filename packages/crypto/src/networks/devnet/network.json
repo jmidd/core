@@ -1,17 +1,17 @@
 {
-    "name": "devnet",
-    "messagePrefix": "DARK message:\n",
+    "name": "mybridgechain",
+    "messagePrefix": "MYBRIDGECHAIN message:\n",
     "bip32": {
         "public": 46090600,
         "private": 46089520
     },
     "pubKeyHash": 30,
-    "nethash": "2a44f340d76ffc3df204c5f38cd355b7496c9065a1ade2ef92071436bd72e867",
-    "wif": 170,
+    "nethash": "3df9948ed2e0eba4002360728d7e79dd5b06872f30721c073d8325cf4e602f68",
+    "wif": 75,
     "aip20": 1,
     "client": {
-        "token": "DARK",
-        "symbol": "DѦ",
-        "explorer": "https://dexplorer.ark.io"
+        "token": "MYBRIDGECHAIN",
+        "symbol": "MB",
+        "explorer": "http://35.246.43.192:4200"
     }
 }
